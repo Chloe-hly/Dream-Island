@@ -1,6 +1,6 @@
 // Dream Island 🌴//
 
-* Objectif *
+** Objectif **
 
 - Dream Island est un jeu de gestion dans lequel le joueur développe et entretient sa propre île.
 Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin d’obtenir la meilleure île possible.
@@ -8,7 +8,7 @@ Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin
 - Chaque bâtiment apporte des effets positifs et négatifs : c'est donc au joueur de trouver un bon équilibre entre le développement économique et le respect de la nature.
 
 
-* Fonctionnement du jeu *
+** Fonctionnement du jeu **
 
 - Jeu en temps réel, sans fin prédéfinie.
 
@@ -21,7 +21,7 @@ Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin
 - Le jeu peut être sauvegardé et repris à tout moment.
 
 
-* Technologies utilisées *
+** Technologies utilisées **
 
 - Python 
 
@@ -32,7 +32,7 @@ Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin
 - Programmation orientée objet
 
 
-* Équipe *
+** Équipe **
 
 - Anfal
 
@@ -43,7 +43,7 @@ Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin
 - Massilya
 
 
-* Documentation *
+** Documentation **
 
 - Toute la documentation du projet se trouve dans le dossier /docs/.
 Elle contient :
@@ -57,7 +57,7 @@ Elle contient :
 	- Et les plans pour le dev (ordre, priorités…)
 
 
-* Lancer le jeu *
+** Lancer le jeu **
 
 - Avoir installé Python et Pyxel 
 
