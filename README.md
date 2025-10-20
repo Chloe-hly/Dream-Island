@@ -1,60 +1,66 @@
-# Description du projet
-Dream Island est un jeu de gestion où le joueur doit construire, organiser et gérer les ressources d’une île tout en maintenant un équilibre entre économie, écologie et bien-être social.
+// Dream Island 🌴//
 
-L’objectif est de développer une île qui rapporte en argent, qui rend les rend heureux ses habitants sans détruire son environnement naturel.  
-Chaque choix du joueur a des conséquences : construire trop d’usines augmente la richesse mais détruit la biodiversité, tandis que favoriser les parcs et les écoles améliore la qualité de vie, mais coûte plus cher.
+* Objectif *
 
----
+- Dream Island est un jeu de gestion dans lequel le joueur développe et entretient sa propre île.
+Il doit équilibrer argent, pollution, biodiversité, bonheur et population afin d’obtenir la meilleure île possible.
 
-# Objectifs du jeu
-- Construire des bâtiments : maisons, écoles, usines, fermes, parcs, etc.  
-- Développer une population heureuse et équilibrée.  
-- Gérer les ressources naturelles, l’argent et la pollution.  
-- Préserver la biodiversité (animaux et végétaux sur l’île).  
-- Atteindre un score final basé sur trois critères :
-  - Économie : richesse, infrastructures, développement.  
-  - Écologie : pollution, biodiversité, durabilité.  
-  - Social : bonheur, éducation, qualité de vie.
----
-
-# Mécaniques principales
-
-## 1. Placement des bâtiments
-- L’île est représentée sous forme de grille 2D (cases ou pixels).  
-- Chaque bâtiment a des effets positifs et négatifs :
-  - Usine → augmente l’argent, mais aussi la pollution et diminue la biodiversité.  
-  - Parc → améliore le bonheur et l’écologie, mais coûte cher.  
-  - École → augmente l’éducation et le bonheur, mais consomme de l’argent.  
-- La position des bâtiments influence leur effet :
-  - Une usine proche d’une forêt peut entraîner la disparition des animaux.  
-  - Un parc près d’une école augmente le bonheur des habitants.
-
----
-
-## 2. Gestion des ressources
-Le joueur doit équilibrer plusieurs variables principales :
-- Argent : gagné grâce aux bâtiments économiques.  
-- Pollution : augmente avec les usines ou routes mal placées.  
-- Population : croît avec les maisons et écoles, mais diminue si la pollution est trop forte.  
-- Biodiversité : diminue si l’environnement se dégrade trop.
-
----
-
-## 3. Événements aléatoires
-Des événements aléatoires influencent la partie :
-- Pluie, tempêtes, sécheresses (impactent les ressources).  
-- Migration d’animaux (augmente la biodiversité).  
-- Manifestations écologiques (si la pollution devient trop élevée).
-- Des déchets apparaissent de manière aléatoire, c'est au joueur de les supprimer afin d'améliorer la biodiversité
-
----
-
-# Aspect visuel
-- Grille 2D représentant l’île.  
-- Icônes pixelisées pour les bâtiments.  
-- Petits personnages (« citoyens ») se déplaçant automatiquement.  
-- Indicateurs affichés à l’écran : argent, bonheur, pollution, biodiversité.  
-- Possibilité d’ajouter des animaux (oiseaux, poissons, etc.).  
-- Système de routes influençant les déplacements et pouvant causer des embouteillages.
+- Chaque bâtiment apporte des effets positifs et négatifs : c'est donc au joueur de trouver un bon équilibre entre le développement économique et le respect de la nature.
 
 
+* Fonctionnement du jeu *
+
+- Jeu en temps réel, sans fin prédéfinie.
+
+- Des événements aléatoires viennent perturber ou aider le joueur.
+
+- Le joueur place des bâtiments pour faire évoluer son île.
+
+- Les indicateurs évoluent automatiquement selon les actions.
+
+- Le jeu peut être sauvegardé et repris à tout moment.
+
+
+* Technologies utilisées *
+
+- Python 
+
+- Pyxel (pour le rendu graphique)
+
+- Sauvegardes en JSON
+
+- Programmation orientée objet
+
+
+* Équipe *
+
+- Anfal
+
+- Chloé
+
+- Maëlys
+
+- Massilya
+
+
+* Documentation *
+
+- Toute la documentation du projet se trouve dans le dossier /docs/.
+Elle contient :
+ 
+	- La présentation du projet
+	- La description détaillée du gameplay
+	- Comment sera l'interface
+	- Les infos sur les bâtiments
+	- Le fonctionnement du système de jeu
+	- Les choix techniques du joueur
+	- Et les plans pour le dev (ordre, priorités…)
+
+
+* Lancer le jeu *
+
+- Avoir installé Python et Pyxel 
+
+- Lancer main.py
+
+- Sauvegardes disponibles dans le dossier /saves/
