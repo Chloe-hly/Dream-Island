@@ -1,0 +1,101 @@
+// SYSTEME - Dream Island //
+
+
+* Gestion des indicateurs * 
+
+	* Indicateurs principaux
+
+- Le jeu suit en temps réel cinq indicateurs essentiels :
+
+| Indicateur      | Description                                               |
+| --------------- | --------------------------------------------------------- |
+| 💵 Argent       | Ressource permettant l’achat et l’entretien des bâtiments |
+| ☣️ Pollution    | Impact environnemental des constructions et événements    |
+| 🌱 Biodiversité | Santé écologique de l’île (faune et flore)                |
+| 😊 Bonheur      | Satisfaction générale des habitants                       |
+| 👥 Population   | Nombre d’habitants présents sur l’île                     |
+
+
+	* Calcul automatique
+
+- À chaque tick (ex : 1 seconde), le système :
+
+  * Applique les effets cumulés de tous les bâtiments.
+  * Met à jour les indicateurs selon les interactions entre bâtiments et environnement.
+  * Déclenche des événements aléatoires si certaines conditions sont remplies (ex : pollution trop élevée, manque de logements).
+- Les indicateurs influencent directement les conséquences sur la population, le bonheur et l’économie.
+
+
+
+* Événements aléatoires *
+
+	* Types d’événements
+
+- Positifs : bonus temporaire d’argent, arrivée de nouveaux habitants, amélioration du bonheur
+- Négatifs : catastrophes naturelles, maladies, pollution accrue, dégradation de bâtiments, apparition de déchets (certains supprimables directement via le bouton poubelle)
+- Neutres : apparitions temporaires de décor 
+
+	* Gestion
+
+- Fréquence : toutes les 5 minutes
+- Chaque événement est lié à un impact sur les indicateurs et éventuellement sur les bâtiments.
+- Les notifications apparaissent dans l’interface pour informer le joueur.
+
+
+
+* Système de niveaux et progression *
+
+	* Définition
+
+- Le joueur progresse en atteignant des paliers de niveau, mesurés par :
+
+	* Temps de jeu total
+	* Réactivité aux événements aléatoires
+
+* Effets des niveaux *
+
+- Déblocage de nouveaux bâtiments plus puissants ou complexes.
+- Augmentation de la rentabilité ou efficacité de certains bâtiments existants.
+- Introduction progressive de bâtiments nécessitant une gestion plus stratégique.
+
+	* Exemple de palier * 
+
+		* Niveau 1 : accès aux maisons, crèches, magasins simples, routes.
+		* Niveau 3 : accès aux usines, collèges, tramway, parc.
+		* Niveau 5 : accès aux aéroports, ports marchands, université, monuments.
+  		
+
+* Placement et interactions des bâtiments *
+
+- L’île est représentée comme une grille 2D
+- Chaque bâtiment a :
+
+  * Effets propres sur les indicateurs
+  * Influence sur son environnement immédiat (ex : parc près d’une école → bonus bonheur).
+
+- Les bâtiments générant des nuisances (usines, routes, décharges) affectent les bâtiments voisins et la population.
+- Le bouton **Poubelle** permet de supprimer un bâtiment, mais certains problèmes peuvent réapparaître si la cause sous-jacente n’est pas résolue (ex : bidonvilles si manque de logements).
+
+
+* Sauvegarde et chargement *
+
+- Les données principales sont stockées dans des fichiers JSON :
+
+  * Liste des bâtiments construits et leur position
+  * Indicateurs actuels
+  * Niveau et progression du joueur
+  * Événements actifs ou temporaires
+
+- La sauvegarde permet de reprendre la partie exactement là où le joueur s’est arrêté, sans perte d’informations.
+
+
+* Interface liée aux systèmes *
+
+- L’interface (barre latérale, boutons, fenêtres) reflète en temps réel l’état des systèmes :
+
+  * Les changements d’indicateurs apparaissent immédiatement.
+  * Les alertes et notifications signalent les événements ou déséquilibres.
+  * Les options disponibles (boutique, bâtiments accessibles, suppression) sont automatiquement mises à jour selon le niveau et la progression.
+
+
+

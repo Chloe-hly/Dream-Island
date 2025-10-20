@@ -1,0 +1,45 @@
+// Nom du projet : Dream Island //
+
+* Résumé général *
+Dream Island est un jeu de gestion en temps réel dans lequel le joueur doit développer et entretenir une île.
+Le but est d’équilibrer plusieurs indicateurs : argent, pollution, biodiversité, bonheur et population.
+Chaque action, notamment la construction de bâtiments, a des effets positifs et négatifs sur ces indicateurs.
+Le joueur doit donc adopter une stratégie cohérente pour maintenir l’équilibre et progresser.
+
+Le jeu n’a pas de fin définie : il s’agit d’un système continu où l’île évolue, avec des événements aléatoires qui viennent perturber ou aider le joueur.
+
+
+* Thèmes principaux *
+
+- Gestion d’une île et de ses ressources
+
+- Équilibre entre écologie, économie et bien-être
+
+- Réactions aux événements imprévus
+
+- Personnalisation et amélioration de l'île
+
+
+* Style de jeu *
+
+- Jeu en temps réel, sans limite de durée
+
+- Pas de fin précise : progression libre et infinie
+
+- Sauvegarde de la partie (JSON)
+
+- Interface simple et claire, pensée pour Pyxel (et aussi pour éviter de surcharger)
+
+- Système de progression par paliers et bâtiments débloqués
+
+
+* Utilisations techniques au niveau du code *
+
+- Programmation orientée objet (class Game comme classe principale, class Island pour la carte et les bâtiments, class Building pour chaque type de construction, class Event pour les événements aléatoires)
+
+- Sauvegarde avec fichiers JSON : stocker les indicateurs, la map, et la liste des bâtiments.
+
+- Utilisation de Pyxel pour afficher une interface pixelisée (chaque bâtiment représenté par une tuile (sprite 16×16)) [Une tuile/tile c'est un carré d'image pour construire un décor, un sprite c'est un objet/personnage qui peut être mobile ou animée]
+
+- Une barre latérale pour les infos et les boutons.
+
