@@ -7,7 +7,7 @@ Created on Sat Oct 25 13:59:30 2025
 
 class Building:
     def __init__(self, nom, categorie, cout, effet_argent, effet_pollution,
-                 effet_biodiversite, effet_bonheur, effet_population,):
+                 effet_biodiversite, effet_bonheur, effet_population, niveau_requis):
         """
         Constructeur de la classe Building.
         Chaque bâtiment a des effets sur la ville et certaines contraintes."""
@@ -18,6 +18,7 @@ class Building:
         self.effet_biodiversite = effet_biodiversite
         self.effet_bonheur = effet_bonheur
         self.effet_population = effet_population
+        self.niveau_requis = niveau_requis
         
         
 
@@ -86,4 +87,5 @@ tous_les_batiments = [
     Building("Stade", "Culture & spéciaux", 2500, 6, 4, -2, 8, 10, 5),
     Building("Centre commercial", "Culture & spéciaux", 2000, 8, 5, -2, 3, 10, 5),
     Building("Festival local", "Culture & spéciaux", 500, 3, 2, -1, 8, 5, 0),
+
 ]
