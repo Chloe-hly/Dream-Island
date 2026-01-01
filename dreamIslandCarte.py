@@ -50,6 +50,7 @@ class Island:
         adjacents = self.batiments_adjacents(x, y)
         for voisin in adjacents:
             if voisin in interdits:
+                print(f"{batiment} ne peut pas être à côté de {voisin} en ({x}, {y})")
                 return False
             
         self.grille[y][x] = batiment
@@ -111,4 +112,5 @@ def charger(nom_fichier="sauvegarde.json"):
     ile.charger_batiments(donnees)
     print(f"Chargement réussi depuis {nom_fichier}")
     return ile
+
       
