@@ -1,6 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jan  8 15:31:58 2026
+
+@author: maelysadoir
+"""
+
 import pyxel
 from carte import *
-from batiments import *
+from batiment import *
 from indicateurs import *
 
 # Dimensions
@@ -8,11 +15,12 @@ LARGEUR_FENETRE = 1000
 HAUTEUR_FENETRE = 800
 TAILLE_CASE = 50
 LARGEUR_MENU = 200
+TITLE="Dream Island"
 
 class Interface:
     
     def __init__(self):
-        pyxel.init(LARGEUR_FENETRE, HAUTEUR_FENETRE, caption="Dream Island")
+        pyxel.init(LARGEUR_FENETRE, HAUTEUR_FENETRE, title=TITLE)
         
         self.carte = Carte()
         self.jeu = Jeu()
@@ -56,7 +64,7 @@ class Interface:
             self.ajouter_message("Mode : Info")
 
         # Clic souris
-        if pyxel.btnp(pyxel.MOUSE_LEFT_BUTTON):
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
             if souris_x >= LARGEUR_FENETRE - LARGEUR_MENU:
                 self.cliquer_bouton(souris_x, souris_y) 
             else:
@@ -208,4 +216,3 @@ class Interface:
 if __name__ == "__main__":
     interface = Interface()
     pyxel.run(interface.mettre_a_jour, interface.dessiner)
-

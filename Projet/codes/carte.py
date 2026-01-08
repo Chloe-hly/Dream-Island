@@ -1,6 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jan  8 15:29:15 2026
+
+@author: maelysadoir
+"""
+
 class Carte:
    
-   def __init__(self):
+    def __init__(self):
        # On ne va pas placer en paramètre largeur, hauteur, taille_case car on va par défaut mettre la carte en 15*15 et une case mesure 50 pixels
        self.largeur = 15  # Le nombre de colonnes x
        self.hauteur = 15 # Le nombre de lignes y
@@ -16,7 +23,7 @@ class Carte:
            for x in range(self.largeur):
                case = {"x" :x, "y" : y, "batiment" : None} # La case ne doit pas contenir de bâtiment : elle doit être vide
                ligne.append(case)
-            self.grille.append(ligne)
+               self.grille.append(ligne)
             
     
     def verifier_case_libre(self, x, y):
@@ -42,7 +49,7 @@ class Carte:
         # Permet de voir, si le joueur clique sur une case, le nom du bâtiment, et renvoie None si la case ne contient rien
         return self.grille[y][x]["batiment"]
     
-    def afficher_carte_console(s)
+    def afficher_carte_console(self):
         # Permet d'afficher la carte dans la console pour voir rapidement ce qu'il y a sur la carte, permet de tester (plus partie en dev, pas partie finale)
         for ligne in self.grille:
             print(["X" if case ["batiment"] else "." for case in ligne])
