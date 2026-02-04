@@ -1,0 +1,55 @@
+| Catégorie          | Bâtiment            | Prix 💰 | 💵 Argent | ☣️ Pollution | 🌱 Biodiversité | 😊 Bonheur | 👥 Population | Niveau requis        |
+| ------------------ | ------------------- | ------- | --------- | ------------ | --------------- | ---------- | ------------- | -------------------- |
+| Habitation         | Maison              | 500     | +1        | +1           | -1              | +2         | +10           | 1                    |
+| Habitation         | Immeuble            | 1500    | +2        | +4           | -3              | 0          | +30           | 3                    |
+| Habitation         | Villa               | 2200    | +2        | +2           | -1              | +5         | +12           | 4                    |
+| Habitation         | Résidence sociale   | 900     | +1        | +3           | -1              | -2         | +25           | 2                    |
+| Habitation         | Bidonville          | 0       | 0         | +6           | -4              | -5         | +20           | automatique*         |
+| Économie           | Usine               | 1400    | +8        | +8           | -4              | -3         | +8            | 3                    |
+| Économie           | Ferme               | 800     | +3        | +2           | -2              | +2         | +6            | 2                    |
+| Économie           | Magasin             | 600     | +3        | +2           | 0               | +1         | +5            | 1                    |
+| Économie           | Supermarché         | 1000    | +5        | +3           | -1              | +1         | +10           | 2                    |
+| Économie           | Magasin bio         | 850     | +3        | 0            | +3              | +3         | +6            | 3                    |
+| Économie           | Banque              | 1600    | +6        | +1           | 0               | -2         | +3            | 4                    |
+| Économie           | Bureaux             | 1100    | +5        | +3           | -1              | +1         | +10           | 3                    |
+| Économie           | Marché local        | 700     | +2        | 0            | +2              | +4         | +5            | 2                    |
+| Économie           | Port marchand       | 2200    | +10       | +7           | -3              | 0          | +15           | 5                    |
+| Éducation          | Crèche              | 600     | 0         | +1           | 0               | +3         | +5            | 1                    |
+| Éducation          | École primaire      | 800     | +1        | +1           | 0               | +4         | +6            | 2                    |
+| Éducation          | Collège             | 1000    | +2        | +2           | 0               | +4         | +8            | 3                    |
+| Éducation          | Lycée               | 1300    | +3        | +2           | 0               | +5         | +10           | 4                    |
+| Éducation          | Université          | 2000    | +5        | +3           | 0               | +7         | +12           | 5                    |
+| Environnement      | Parc                | 700     | 0         | -3           | +4              | +5         | 0             | 2                    |
+| Environnement      | Forêt               | 1000    | 0         | -5           | +6              | +2         | 0             | 3                    |
+| Environnement      | Plage               | 1300    | +1        | 0            | +3              | +6         | +2            | 4                    |
+| Environnement      | Éolienne            | 900     | +2        | -2           | +1              | +2         | 0             | 3                    |
+| Environnement      | Décharge            | 800     | 0         | +5           | -4              | -3         | 0             | automatique*         |
+| Services publics   | Mairie              | 2200    | +3        | 0            | 0               | +6         | +3            | 4                    |
+| Services publics   | Commissariat        | 1200    | 0         | +1           | 0               | +3         | +3            | 3                    |
+| Services publics   | Caserne de pompiers | 1400    | 0         | 0            | 0               | +4         | +3            | 3                    |
+| Services publics   | Hôpital             | 2000    | 0         | +2           | 0               | +7         | +10           | 5                    |
+| Services publics   | Prison              | 1500    | 0         | +3           | -1              | -3         | 0             | 4                    |
+| Services publics   | Tribunal            | 1000    | +1        | 0            | 0               | +3         | 0             | 3                    |
+| Transports         | Route               | 400     | +1        | +3           | -1              | 0          | 0             | 1                    |
+| Transports         | Tramway             | 1300    | +3        | -2           | 0               | +3         | +5            | 3                    |
+| Transports         | Métro               | 2200    | +5        | -3           | 0               | +4         | +10           | 4                    |
+| Transports         | Piste cyclable      | 600     | 0         | -2           | 0               | +4         | 0             | 2                    |
+| Transports         | Port                | 2500    | +8        | +6           | -3              | +1         | +12           | 5                    |
+| Transports         | Aéroport            | 3200    | +12       | +10          | -5              | +2         | +20           | 6                    |
+| Culture & spéciaux | Monument            | 2200    | +4        | 0            | 0               | +10        | 0             | 5                    |
+| Culture & spéciaux | Centre culturel     | 1600    | +2        | +1           | 0               | +6         | +5            | 4                    |
+| Culture & spéciaux | Stade               | 2500    | +6        | +4           | -2              | +8         | +10           | 5                    |
+| Culture & spéciaux | Centre commercial   | 2000    | +8        | +5           | -2              | +3         | +10           | 5                    |
+| Culture & spéciaux | Festival local*     | 500     | +3        | +2           | -1              | +8         | +5            | événement temporaire |
+
+
+*Certains bâtiments ne peuvent pas être à côté l'un de l'autre* 
+
+| Bâtiment             | Ne peut pas être à côté de…                                    | Remarques                                                    |
+| -------------------- | -------------------------------------------------------------- | ------------------------------------------------------------ |
+| Usine                | Maison, Immeuble, Villa, Résidence sociale, École, Crèche      | Pollution + baisse bonheur                                   |
+| Décharge             | Habitations (Maison, Immeuble, Villa, Résidence sociale)       | Génère forte pollution et baisse bonheur                     |
+| Prison               | Habitations                                                    | Impact négatif sur bonheur                                   |
+| Aéroport             | Habitations                                                    | Bruit et baisse bonheur                                      |
+| Port marchand / Port | Habitations                                                    | Bruit, pollution, baisse bonheur                             |
+| Stade                | Habitations                                                    | Bruit et perturbation                                        |

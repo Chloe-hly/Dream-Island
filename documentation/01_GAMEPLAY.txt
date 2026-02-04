@@ -1,0 +1,107 @@
+// GAMEPLAY – Dream Island //
+
+* Présentation générale * 
+
+Le gameplay de **Dream Island** repose sur la gestion d’une île à développer et à équilibrer.
+Le joueur doit construire différents bâtiments, gérer les ressources principales et réagir aux événements aléatoires pour maintenir un bon équilibre entre économie, environnement et bien-être social.
+Le jeu ne possède pas de fin prédéfinie : il s’agit d’un jeu de gestion en continu, où le but est simplement d'améliorer son île et de la faire vivre plus longtemps possible sans tomber dans le déséquilibre.
+
+
+* Principes de base *
+
+Le jeu s’appuie sur cinq indicateurs principaux :
+
+* 💵 Argent : permet d’acheter de nouveaux bâtiments.
+* ☣️ Pollution : augmente selon le type d’infrastructures construites.
+* 🌱 Biodiversité : diminue avec les constructions polluantes, augmente avec les espaces verts.
+* 😊 Bonheur : reflète la satisfaction générale des habitants.
+* 👥 Population : évolue automatiquement selon le nombre de logements et le bonheur global.
+
+L’objectif du joueur est de maintenir ces indicateurs stables. Trop de pollution, pas assez de logements ou un manque de services peut mener à une baisse de bonheur, une fuite des habitants, voire une baisse économique.
+
+
+* Construction et ressources *
+
+- Le joueur débute avec une somme d’argent de base (par exemple 5000 💵).
+Chaque bâtiment a :
+
+	* un coût d’achat,
+	* des effets positifs et négatifs sur les indicateurs (argent, pollution, biodiversité, bonheur, population).
+
+- Les bâtiments sont regroupés en catégories (Habitation, Économie, Environnement, Éducation, Services publics, Transports, Culture).
+
+- Les effets sont cumulatifs : plus un joueur construit un type de bâtiment, plus ses effets s’additionnent (donc construire trop d’usines apportera beaucoup d’argent mais fera exploser la pollution et réduire la biodiversité.)
+
+- Le joueur doit donc trouver un équilibre entre rentabilité et durabilité.
+
+
+* Gestion du temps *
+
+- Le jeu fonctionne en temps réel :
+
+	* les indicateurs se mettent à jour à intervalles réguliers (par exemple toutes les secondes).
+	* la population augmente automatiquement selon le bonheur et le nombre de logements disponibles.
+	* le joueur peut construire ou détruire des bâtiments à tout moment.
+
+- Les moyennes globales (bonheur, pollution, biodiversité, etc.) sont recalculées en continu 
+
+
+* Événements et notifications *
+
+- Des événements aléatoires surviennent régulièrement.
+Ils peuvent être positifs (bonus de bonheur, arrivée de touristes, baisse temporaire de pollution) ou négatifs (catastrophe naturelle, grève, panne, épidémie, etc.).
+
+Chaque événement s’affiche via une notification à l’écran, que le joueur doit lire pour réagir.
+Exemples :
+
+	* “10 nouveaux habitants sont arrivés ! Votre île devient plus attrayante.”
+	* “Pollution record ! Les habitants tombent malades.”
+	* “Un festival local augmente le bonheur pendant 20 secondes.”
+
+Ces événements forcent le joueur à réagir rapidement et évitent la monotonie du jeu.
+
+
+* Actions du joueur *
+
+- Le joueur peut :
+
+	* acheter ou supprimer un bâtiment,
+	* consulter les statistiques globales,
+	* observer les variations des indicateurs,
+	* répondre à des événements (en prenant des décisions ou en construisant de nouveaux bâtiments).
+
+- Les actions doivent être manuelles 
+
+
+* Sauvegarde et progression *
+
+- À chaque partie, les données importantes sont enregistrées dans un fichier JSON :
+
+	* argent, population, bonheur, pollution, biodiversité
+	* liste des bâtiments construits
+	* niveau de progression (palier de population, bonheur, etc.)
+
+- La sauvegarde permet de reprendre une partie en cours 
+
+
+* Équilibrage *
+
+- Le gameplay doit rester difficile à maîtriser :
+
+	* trop de pollution → chute du bonheur et fuite de population
+	* pas assez de logements → hausse du mécontentement
+	* trop de bâtiments coûteux → faillite rapide
+
+- Les bâtiments ont volontairement des effets forts
+- L’île ne peut pas tout avoir : le joueur doit choisir un modèle de développement (économique, écologique, touristique…).
+- S'il y a trop de personnes dans la ville mais pas assez de logement, des bidonvilles vont s'installer de manière aléatoire (ce qui fait baisser la réputation de l'île, le bonheur..)
+
+
+* Fin de partie * 
+
+- Il n’y a pas de “victoire” ou “défaite” , mais plusieurs **états finaux possibles** :
+
+	* effondrement (argent ou population à 0)
+	* stabilité (tous les indicateurs équilibrés)
+	* prospérité (argent élevé, pollution faible, bonheur haut)
+

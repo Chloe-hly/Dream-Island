@@ -1,0 +1,110 @@
+// INTERFACE - Dream Island //
+
+* Présentation générale * 
+
+- L’interface de Dream Island est conçue pour offrir une vision simple au joueur, tout en lui permettant d’agir rapidement sur la construction et la gestion des bâtiments.
+
+- L’écran principal se compose de trois zones principales :
+
+	1. La carte de l’île (zone centrale) : représente l’île avec tous les bâtiments existants.
+	2. La barre latérale (zone gauche) : contient les boutons d’action et les indicateurs.
+	3. Fenêtres contextuelles : s’ouvrent lorsqu’un élément est sélectionné ou qu’une action est entreprise.
+
+
+* Carte de l’île * 
+
+- Se situe au milieu (zone centrale)
+- Fonction : visualiser l’ensemble de l’île et interagir avec les bâtiments.
+- Interactions :
+
+  * Cliquer sur un bâtiment ouvre une fenêtre d’information sur ce bâtiment (donne les caractéristiques du bâtiment)
+  * Les bâtiments sont représentés par des sprites 16×16 pixels
+  * La position des bâtiments influence leurs effets sur les indicateurs.
+
+
+* Fenêtres d’information d’un bâtiment *
+
+- Contiennent les informations essentielles sur le bâtiment sélectionné :
+
+  * Nom du bâtiment
+  * Coût 
+  * Effets sur les ressources : argent, bonheur, pollution, biodiversité, population
+  * Autres caractéristiques spécifiques (par exemple, rentabilité ou capacité (car le bâtiment doit être entretenu pour améliorer sa rentabilité ou autre))
+
+
+* Barre latérale * 
+
+- La barre latérale se trouve à gauche de l’écran et regroupe trois boutons principaux ainsi que les indicateurs globaux.
+
+	* Bouton Info *
+
+	- Fonction : afficher les statistiques globales de l’île.
+ 	- Contenu :
+
+  		* État des cinq indicateurs : argent, pollution, biodiversité, bonheur, population
+  		* Alertes sur les problèmes existants, par exemple :
+    			* Trop de population mais pas assez de logements → risque de bidonvilles
+    			* Pollution élevée → baisse du bonheur ou apparition de maladies
+  		* Conseils de gestion pour améliorer l’île
+
+	* Bouton Boutique *
+
+        - Fonction : permettre l’achat de nouveaux bâtiments.
+        - Contenu :
+
+  		* Liste de tous les bâtiments disponibles
+  		* Caractéristiques de chaque bâtiment : prix, rentabilité, pollution, effet sur les indicateurs
+  		* Bâtiments non achetables affichés grisés (exemple : niveau insuffisant du joueur)
+
+	
+	* Bouton *Poubelle*
+
+        - Fonction : supprimer certains bâtiments ou éléments de l’île.
+	- Utilisation :
+
+  		* Retirer des déchets générés par des événements aléatoires
+  		* Détruire des bidonvilles temporaires
+		* *Règle* : si un problème sous-jacent persiste (ex : manque de logements), les bidonvilles supprimés peuvent réapparaître automatiquement après suppression.
+
+
+* Fenêtres contextuelles et notifications *
+
+- Fenêtres d’information : apparaissent lors du clic sur un bâtiment ou sur un bouton spécifique (info, boutique, poubelle).
+- Notifications d’événements :
+
+  * Informer le joueur de l’arrivée d’un événement aléatoire ou d’un changement d’indicateur.
+  * Exemples :
+
+    * “10 nouveaux habitants sont arrivés !”
+    * “Pollution record ! Les habitants tombent malades.”
+
+
+* Indicateurs visuels *
+
+- Les indicateurs principaux sont toujours visibles dans la barre latérale et reflètent l’état actuel de l’île :
+
+| Indicateur   | Icône | Description                                   |
+| ------------ | ----- | ----------------------------------------------|
+| Argent       | 💵    | Montant disponible pour acheter des bâtiments |
+| Pollution    | ☣️    | Niveau de dégradation de l’île                |
+| Biodiversité | 🌱    | Richesse écologique de l’île                  |
+| Bonheur      | 😊    | Satisfaction générale des habitants           |
+| Population   | 👥    | Nombre d’habitants présents sur l’île         |
+
+* Mise à jour en temps réel à chaque “tick” du jeu (par exemple toutes les secondes).
+* Les changements dans les indicateurs peuvent déclencher des notifications 
+
+
+* Objectifs d’utilisation *
+
+- Clarté et rapidité : le joueur doit comprendre instantanément l’état de son île.
+- Interactions intuitives : toutes les actions se font via des clics simples sur les bâtiments ou les boutons.
+- Feedback immédiat : les modifications de l’île se reflètent instantanément dans les indicateurs et l’affichage.
+- Gestion proactive : les fenêtres d’alerte et d’information permettent au joueur d’anticiper les problèmes avant qu’ils ne deviennent critiques.
+
+
+* Notes techniques *
+
+- Développement avec Pyxel pour un affichage pixelisé et léger.
+- Les sprites et éléments graphiques sont stockés dans le dossier `/assets/`.
+
