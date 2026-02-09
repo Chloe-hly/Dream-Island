@@ -1,105 +1,145 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Jan  8 15:31:58 2026
-
-@author: maelysadoir
-"""
-# -*- coding: utf-8 -*-
 import pygame
 from carte import *
 from batiment import *
 from indicateurs import *
 
-# Dimensions
-LARGEUR_FENETRE = 1000
-HAUTEUR_FENETRE = 800
+
+
+# AFFICHAGE
+
 TAILLE_CASE = 50
-LARGEUR_MENU = 200
+LARGEUR_MENU = 200      # panneau de droite
+HAUTEUR_HUD = 80        # bande du bas (indicateurs)
+
 TITLE = "Dream Island"
 
+
 class Interface:
-    
     def __init__(self):
         # Initialisation de pygame
         pygame.init()
-        self.screen = pygame.display.set_mode((LARGEUR_FENETRE, HAUTEUR_FENETRE))
+
+        # Récupération de la taille réelle de l'écran
+        info = pygame.display.Info()
+        self.largeur_fenetre = info.current_w
+        self.hauteur_fenetre = info.current_h
+
+        # Création d'une grande fenêtre 
+        self.screen = pygame.display.set_mode(
+            (self.largeur_fenetre, self.hauteur_fenetre),
+            pygame.RESIZABLE
+        )
+
         pygame.display.set_caption(TITLE)
+
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("arial", 16)
         
+        # Chargement des images des boutons
+        self.img_boutique = pygame.image.load("../graphisme/sprites/interface/bouton_boutique.png").convert_alpha()
+        self.img_info = pygame.image.load("../graphisme/sprites/interface/bouton_info.png").convert_alpha()
+        self.img_poubelle = pygame.image.load("../graphisme/sprites/interface/bouton_poubelle.png").convert_alpha()
+
+        # Redimensionnement pour rentrer dans le menu
+        self.img_boutique = pygame.transform.scale(self.img_boutique, (160, 40))
+        self.img_info = pygame.transform.scale(self.img_info, (160, 40))
+        self.img_poubelle = pygame.transform.scale(self.img_poubelle, (160, 40))
+
+        # Rectangles des boutons (pour les clics)
+        self.rect_boutique = pygame.Rect(0, 0, 160, 40)
+        self.rect_info = pygame.Rect(0, 0, 160, 40)
+        self.rect_poubelle = pygame.Rect(0, 0, 160, 40)
+
+
+        # Initialisation des éléments du jeu
         self.carte = Carte()
         self.jeu = Jeu()
         self.indicateurs = Indicateurs()
-        
-        # Au départ, on ne sait pas où est placé la souris, ni quel batiment est sélectionné. Donc par défaut on met "None".
+
+        # Gestion de la boutique
+        self.boutique_ouverte = False
+        self.categorie_boutique = "Habitation"
+        self.dict_batiments = DictBatiments
+
+        # Gestion des interactions souris / joueur
         self.case_souris = None
         self.case_selectionnee = None
         self.batiment_selectionne = None
-        self.mode = "placer" # par défaut (modifiable grâce à la méthode)
-        
-        # Les notifications
+
+        # Mode courant : placer / supprimer / info
+        self.mode = "placer"
+
+        # Messages affichés à l'écran
         self.messages = []
-        
+
         self.running = True
-        
+
     def ajouter_message(self, texte):
-        # On ne garde qu'un seul message à la fois
+        # On garde uniquement le dernier message
         self.messages = [texte]
 
     def case_valide(self, x, y):
-        # Permet de vérifier si une case est dans la grille
-        return 0 <= y < len(self.carte.grille) and 0 <= x < len(self.carte.grille[0])
-        
+        # Vérifie si la case est bien dans la grille
+        return (
+            0 <= y < len(self.carte.grille)
+            and 0 <= x < len(self.carte.grille[0])
+        )
+
+
+    # BOUCLE DE MISE A JOUR
+
     def mettre_a_jour(self):
-        # Gestion des événements pygame
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
 
+            # Gestion du clavier
             if event.type == pygame.KEYDOWN:
-                # Changer le MODE
-                if event.key == pygame.K_p:
+                # Quitter le jeu avec Echap
+                if event.key == pygame.K_ESCAPE:
+                    self.running = False
+
+                elif event.key == pygame.K_p:
                     self.mode = "placer"
                     self.ajouter_message("Mode : Placer")
+
                 elif event.key == pygame.K_s:
                     self.mode = "supprimer"
                     self.ajouter_message("Mode : Supprimer")
+
                 elif event.key == pygame.K_i:
                     self.mode = "info"
                     self.ajouter_message("Mode : Info")
 
-            # Clic souris
+            # Gestion du clic gauche
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 souris_x, souris_y = pygame.mouse.get_pos()
-                
-                if souris_x >= LARGEUR_FENETRE - LARGEUR_MENU:
+
+                # Si la boutique est ouverte, on clique dedans
+                if self.boutique_ouverte:
+                    self.cliquer_boutique(souris_x, souris_y)
+                    return
+
+                # Si on clique dans le menu de droite
+                if souris_x >= self.largeur_fenetre - LARGEUR_MENU:
                     self.cliquer_bouton(souris_x, souris_y)
                 else:
+                    # Sinon on clique sur la carte
                     case_x = souris_x // TAILLE_CASE
                     case_y = souris_y // TAILLE_CASE
-                    # Vérifie que le clic est dans la grille et pas sur le menu
+
                     if self.case_valide(case_x, case_y):
-                        self.case_selectionnee = (case_x, case_y) # Utile pour entourer la case sélectionnée
+                        self.case_selectionnee = (case_x, case_y)
                         self.action_case(case_x, case_y)
 
-        # Case sous la souris du joueur
+        # Mise à jour de la case sous la souris
         souris_x, souris_y = pygame.mouse.get_pos()
         self.case_souris = (souris_x // TAILLE_CASE, souris_y // TAILLE_CASE)
 
-        # Mettre à jour les indicateurs
-        self.indicateurs.appliquer_variation()
-        
-        # On applique les effets des bâtiments placés
-        for batiment, pos in self.jeu.batiments_places:
-            self.indicateurs.modifier("argent", getattr(batiment, "effet_argent", 0))
-            self.indicateurs.modifier("bonheur", batiment.effet_bonheur)
-            self.indicateurs.modifier("population", batiment.effet_population)
-            self.indicateurs.modifier("energie", getattr(batiment, 'effet_energie', 0))
-            self.indicateurs.modifier("nourriture", getattr(batiment, 'effet_nourriture', 0))
-            self.indicateurs.modifier("eau", getattr(batiment, 'effet_eau', 0))
+
+    # ACTIONS SUR LA CARTE
 
     def action_case(self, x, y):
-        # On vérifie d'abord que la case est dans la grille	
         if not self.case_valide(x, y):
             self.ajouter_message("Case hors limite")
             return
@@ -114,55 +154,70 @@ class Interface:
                 return
 
             batiment = self.batiment_selectionne
-            if self.jeu.ville.argent >= batiment.cout:
-                self.jeu.acheter_batiment(batiment, (x, y))
+            if self.jeu.acheter_batiment(batiment, (x, y), self.indicateurs):
                 self.carte.placer_batiment(batiment, x, y)
-                self.ajouter_message(f"{batiment.nom} construit !")
+                self.ajouter_message(f"{batiment.nom} construit")
             else:
                 self.ajouter_message("Pas assez d'argent")
 
         elif self.mode == "supprimer":
             if self.carte.verifier_case_libre(x, y):
-                self.ajouter_message("Aucun bâtiment à supprimer")
+                self.ajouter_message("Aucun bâtiment ici")
             else:
                 self.carte.supprimer_batiment(x, y)
                 self.ajouter_message("Bâtiment supprimé")
-        
+
         elif self.mode == "info":
             batiment = self.carte.voir_batiment(x, y)
             if batiment:
                 texte = (
-                    f"{batiment.nom} | Argent:{getattr(batiment, 'effet_argent', 0)} "
-                    f"Pollution:{getattr(batiment, 'effet_pollution', 0)} "
-                    f"Biodiv:{getattr(batiment, 'effet_biodiversite', 0)} "
-                    f"Bonheur:{getattr(batiment, 'effet_bonheur', 0)} "
-                    f"Pop:{getattr(batiment, 'effet_population', 0)}"
+                    f"{batiment.nom} | "
+                    f"Argent:{batiment.effet_argent} "
+                    f"Pollution:{batiment.effet_pollution} "
+                    f"Biodiv:{batiment.effet_biodiversite} "
+                    f"Bonheur:{batiment.effet_bonheur} "
+                    f"Pop:{batiment.effet_population}"
                 )
                 self.ajouter_message(texte)
             else:
                 self.ajouter_message("Aucun bâtiment ici")
 
+    # DESSIN DE L'INTERFACE
+
     def dessiner(self):
-        self.screen.fill((255, 255, 255)) # Pour l'instant fond blanc, on verra par la suite
+        # Fond blanc
+        self.screen.fill((255, 255, 255))
+
         self.dessiner_carte()
         self.dessiner_menu()
         self.dessiner_hud()
         self.dessiner_notifications()
-        self.dessiner_mode()
+
+        if self.boutique_ouverte:
+            self.dessiner_boutique()
+
         pygame.display.flip()
-        
+
     def dessiner_carte(self):
-        # Enumerate permet ici d'avoir des indices y et x utiles pour calculer par la suite la position en pixels
+        # Dessin de la grille de la carte
         for y, ligne in enumerate(self.carte.grille):
             for x, case in enumerate(ligne):
+                px = x * TAILLE_CASE
+                py = y * TAILLE_CASE
+
+                # On évite de dessiner sous le HUD
+                if py + TAILLE_CASE > self.hauteur_fenetre - HAUTEUR_HUD:
+                    continue
+
                 pygame.draw.rect(
                     self.screen, (0, 0, 0),
-                    (x*TAILLE_CASE, y*TAILLE_CASE, TAILLE_CASE, TAILLE_CASE), 1
+                    (px, py, TAILLE_CASE, TAILLE_CASE), 1
                 )
+
                 if case["batiment"]:
                     pygame.draw.rect(
                         self.screen, (0, 120, 255),
-                        (x*TAILLE_CASE+2, y*TAILLE_CASE+2, TAILLE_CASE-4, TAILLE_CASE-4)
+                        (px+2, py+2, TAILLE_CASE-4, TAILLE_CASE-4)
                     )
 
         # Case survolée
@@ -177,64 +232,123 @@ class Interface:
         # Case sélectionnée
         if self.case_selectionnee:
             x, y = self.case_selectionnee
-            if self.case_valide(x, y):
-                pygame.draw.rect(
-                    self.screen, (255, 0, 0),
-                    (x*TAILLE_CASE, y*TAILLE_CASE, TAILLE_CASE, TAILLE_CASE), 2
-                )
+            pygame.draw.rect(
+                self.screen, (255, 0, 0),
+                (x*TAILLE_CASE, y*TAILLE_CASE, TAILLE_CASE, TAILLE_CASE), 2
+            )
 
     def dessiner_menu(self):
+        # Panneau de droite
         pygame.draw.rect(
             self.screen, (180, 180, 180),
-            (LARGEUR_FENETRE - LARGEUR_MENU, 0, LARGEUR_MENU, HAUTEUR_FENETRE)
+            (self.largeur_fenetre - LARGEUR_MENU, 0, LARGEUR_MENU, self.hauteur_fenetre)
         )
 
-        # Boutons
-        boutons = ["Boutique", "Info", "Poubelle"]
-        for i, txt in enumerate(boutons):
-            x = LARGEUR_FENETRE - LARGEUR_MENU + 10
-            y = 10 + i*40
-            pygame.draw.rect(self.screen, (0, 150, 0), (x, y, 180, 30))
-            texte = self.font.render(txt, True, (255, 255, 255))
-            self.screen.blit(texte, (x+5, y+7))
+        # Niveau
+        texte_niveau = self.font.render(f"Niveau : {self.jeu.niveau}", True, (0, 0, 0))
+        self.screen.blit(
+            texte_niveau,
+            (self.largeur_fenetre - LARGEUR_MENU + 20, 20)
+        )
+
+        # Position X commune
+        x = self.largeur_fenetre - LARGEUR_MENU + 20
+
+        # Position des boutons
+        self.rect_boutique.topleft = (x, 70)
+        self.rect_info.topleft = (x, 140)
+        self.rect_poubelle.topleft = (x, 210)
+
+        # FOND DES BOUTONS
+        for rect in [self.rect_boutique, self.rect_info, self.rect_poubelle]:
+            pygame.draw.rect(self.screen, (255, 255, 255), rect, border_radius=6)
+            pygame.draw.rect(self.screen, (120, 120, 120), rect, 2, border_radius=6)
+
+        #CENTRAGE DES IMAGES
+        img_boutique_rect = self.img_boutique.get_rect(center=self.rect_boutique.center)
+        img_info_rect = self.img_info.get_rect(center=self.rect_info.center)
+        img_poubelle_rect = self.img_poubelle.get_rect(center=self.rect_poubelle.center)
+
+        self.screen.blit(self.img_boutique, img_boutique_rect)
+        self.screen.blit(self.img_info, img_info_rect)
+        self.screen.blit(self.img_poubelle, img_poubelle_rect)
+
 
     def dessiner_hud(self):
-        y = 200
+        # Position verticale du HUD
+        y = self.hauteur_fenetre - HAUTEUR_HUD
+        largeur_hud = self.largeur_fenetre - LARGEUR_MENU
+
+        # Fond du HUD
+        pygame.draw.rect(
+            self.screen,
+            (220, 220, 220),
+            (0, y, largeur_hud, HAUTEUR_HUD)
+        )
+
+        # Affichage des indicateurs
+        nb_indicateurs = len(self.indicateurs.valeurs)
+        espace = largeur_hud // nb_indicateurs
+
+        x = 10
         for nom, valeur in self.indicateurs.valeurs.items():
-            texte = self.font.render(f"{nom}: {valeur}", True, (0, 0, 0))
-            self.screen.blit(texte, (LARGEUR_FENETRE - LARGEUR_MENU + 10, y))
-            y += 20
+            texte = self.font.render(f"{nom} : {valeur}", True, (0, 0, 0))
+            self.screen.blit(texte, (x, y + 25))
+            x += espace
 
     def dessiner_notifications(self):
-        for i, msg in enumerate(self.messages[-5:]):
+        # Messages en bas à gauche
+        for i, msg in enumerate(self.messages):
             texte = self.font.render(msg, True, (0, 0, 0))
-            self.screen.blit(texte, (10, HAUTEUR_FENETRE - 120 + i*20))
+            self.screen.blit(
+                texte,
+                (10, self.hauteur_fenetre - HAUTEUR_HUD - 25 + i * 20)
+            )
 
-    def dessiner_mode(self):
-        x = LARGEUR_FENETRE - LARGEUR_MENU + 10 
-        y = 150  # juste au-dessus du HUD
-        texte = self.font.render(f"Mode : {self.mode.capitalize()}", True, (0, 0, 0))
-        self.screen.blit(texte, (x, y))
+    # BOUTIQUE
 
+    def dessiner_boutique(self):
+        pygame.draw.rect(self.screen, (230, 230, 230), (100, 80, 800, 600))
+        pygame.draw.rect(self.screen, (0, 0, 0), (100, 80, 800, 600), 2)
+
+        titre = self.font.render("Boutique", True, (0, 0, 0))
+        self.screen.blit(titre, (460, 90))
+
+        y = 150
+        for batiment in self.dict_batiments[self.categorie_boutique].values():
+            rect = pygame.Rect(150, y, 600, 35)
+            pygame.draw.rect(self.screen, (100, 150, 255), rect)
+            pygame.draw.rect(self.screen, (0, 0, 0), rect, 1)
+
+            texte = self.font.render(
+                f"{batiment.nom} | Coût : {batiment.cout}",
+                True, (0, 0, 0)
+            )
+            self.screen.blit(texte, (160, y + 8))
+            y += 45
+
+    def cliquer_boutique(self, x, y):
+        y_pos = 150
+        for batiment in self.dict_batiments[self.categorie_boutique].values():
+            rect = pygame.Rect(150, y_pos, 600, 35)
+            if rect.collidepoint(x, y):
+                self.batiment_selectionne = batiment
+                self.mode = "placer"
+                self.boutique_ouverte = False
+                self.ajouter_message(f"{batiment.nom} sélectionné")
+                return
+            y_pos += 45
+
+
+    # CLICS MENU
+    
     def cliquer_bouton(self, souris_x, souris_y):
-        boutons = ["Boutique", "Info", "Poubelle"]
-        for i, txt in enumerate(boutons):
-            x = LARGEUR_FENETRE - LARGEUR_MENU + 10
-            y = 10 + i*40
-            if x <= souris_x <= x + 180 and y <= souris_y <= y + 30:
-                if txt == "Boutique":
-                    self.ajouter_message("Boutique ouverte !")
-                elif txt == "Info":
-                    self.mode = "info"
-                    self.ajouter_message("Mode info activé")
-                elif txt == "Poubelle":
-                    self.mode = "supprimer"
-                    self.ajouter_message("Mode supprimer activé")
+        if self.rect_boutique.collidepoint(souris_x, souris_y):
+            self.boutique_ouverte = not self.boutique_ouverte
 
-if __name__ == "__main__":
-    interface = Interface()
-    while interface.running:
-        interface.clock.tick(60)
-        interface.mettre_a_jour()
-        interface.dessiner()
-    pygame.quit()
+        elif self.rect_info.collidepoint(souris_x, souris_y):
+            self.mode = "info"
+
+        elif self.rect_poubelle.collidepoint(souris_x, souris_y):
+            self.mode = "supprimer"
+
