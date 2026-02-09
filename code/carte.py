@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import json
 
 # Contraintes de proximité entre bâtiments
@@ -129,3 +127,4 @@ class Carte:
                 self.grille[y][x]["batiment"] = dictionnaire_batiments[nom]
         
         print("Chargement réussi depuis " + nom_fichier)
+
