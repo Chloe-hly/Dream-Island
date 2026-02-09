@@ -1,11 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Oct 25 13:59:30 2025
-
-@author: maelysadoir
-"""
-
-
 class Ville:
     def __init__(self):
         self.argent = 10000
@@ -13,71 +5,64 @@ class Ville:
         self.biodiversite = 50
         self.bonheur = 50
         self.population = 0
-        self.niveau=1
+        self.niveau = 1
+
 
 class Batiment:
     def __init__(self, nom, categorie, cout, effet_argent, effet_pollution,
-                 effet_biodiversite, effet_bonheur, effet_population,niveau_requis):
-        
+                 effet_biodiversite, effet_bonheur, effet_population, niveau_requis):
         """
-        
-        Constructeur de la classe Building.
-        Chaque bâtiment a des effets sur la ville et certaines contraintes."""
+        Constructeur de la classe Batiment.
+        Chaque bâtiment a des effets sur la ville.
+        """
         self.nom = nom
         self.categorie = categorie
         self.cout = cout
+
+        # Effets
+        self.effet_argent = effet_argent
         self.effet_pollution = effet_pollution
         self.effet_biodiversite = effet_biodiversite
         self.effet_bonheur = effet_bonheur
         self.effet_population = effet_population
-        self.niveau_requis= niveau_requis
+
+        self.niveau_requis = niveau_requis
+
 
 class Jeu:
     def __init__(self):
         self.ville = Ville()
         self.batiments_places = []   # Liste : (batiment, position)
+        self.niveau = 1
         
     def placer_batiment(self, batiment, position):
         """Ajoute le bâtiment sur la carte."""
         self.batiments_places.append((batiment, position))
-    
-    
-    
-    def acheter_batiment(self, batiment, position):
-    # Vérification de l'argent
-        if self.ville.argent < batiment.cout:
-            print(" Pas assez d'argent ")
-            return
 
-    # Vérification du niveau
+    def acheter_batiment(self, batiment, position, indicateurs):
+        # Vérification de l'argent
+        if indicateurs.valeurs["argent"] < batiment.cout:
+            print("Pas assez d'argent")
+            return False
+
+        # Vérification du niveau
         if self.ville.niveau < batiment.niveau_requis:
-            print(f" Niveau {batiment.niveau_requis} requis pour construire {batiment.nom}.")
-            return
+            print(f"Niveau {batiment.niveau_requis} requis pour construire {batiment.nom}")
+            return False
 
-    # Paiement
-        self.ville.argent -= batiment.cout
+        # Paiement
+        indicateurs.modifier("argent", -batiment.cout)
 
-    # Application effets du batiment acheté
-        self.ville.pollution += batiment.effet_pollution
-        self.ville.biodiversite += batiment.effet_biodiversite
-        self.ville.bonheur += batiment.effet_bonheur
-        self.ville.population += batiment.effet_population
+        # Application des effets
+        indicateurs.modifier("argent", batiment.effet_argent)
+        indicateurs.modifier("bonheur", batiment.effet_bonheur)
+        indicateurs.modifier("population", batiment.effet_population)
 
-    # Placement
+        # Placement
         self.placer_batiment(batiment, position)
 
-        print(f" {batiment.nom} construit ")
-        
-
-
-
-    
-
-
-    
-    
-       
-   
+        print(f"{batiment.nom} construit")
+        return True
 
 DictBatiments = {
     "Habitation": {
@@ -129,5 +114,3 @@ DictBatiments = {
         }
     
 }
-            
-
