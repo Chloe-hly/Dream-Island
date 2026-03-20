@@ -161,4 +161,36 @@
 
 Trouver aussi des sprites/tiles pour éviter d'avoir à dessiner tout par nous même
 
+Pour terminer le projet il faut : 
 
+Dans le code Jeu :
+
+Il faut gérer ici le système de "tick" et donc créer une fonction qui permet d'actualiser l'économie (à l'aide des indicateurs). Elle doit en gros parcourir le self.batiments_places et pour chaque batiment elle doit ajouter les effets (effet_argent, effet_pollution…).
+Il faut aussi créer une nouvelle fonction pour calculer la population. La fonction doit en gros comparer le nombre de maisons au nombre d'habitants et doit ajuster la population en fonction du bonheur.
+Faut aussi ajouter un truc pour les niveaux, genre si on a 50 habitants on passe au niveau 2 pour débloquer les nouveaux bâtiments.
+
+Dans le code Batiment :
+
+Il faut ajouter un attribut self.image dans le init de la classe Batiment pour lier chaque batiment à une image.
+Donc il faut avoir trouvé une image pour chaque batiment et faire un dictionnaire qui dit quelle image va avec quel nom.
+Il faut aussi vérifier que les prix et les effets de chaque bâtiment sont bien équilibrés pour pas que ce soit trop facile.
+
+Dans le code interface : (Chloé)
+
+
+Il faut créer une fonction pour les boutons, qui permet ensuite de cliquer dessus et de savoir si on est en mode "placer", "poubelle" ou "info".
+Il faut améliorer le dessiner carte pour afficher les vraies images au lieu des carrés bleus.
+Et il faut ajouter un compteur de temps pour que actualiser_economie ne s'exécute qu'une fois toutes les deux secondes.
+Il faut créer une fenêtre qui s'ouvre pour afficher la boutique (qui contient les bâtiments par catégories).
+
+Dans le code Carte : 
+
+Il faut créer une nouvelle fonction calculer_bonus_proximité, qui en gros prend en paramètre des coordonnées et qui doit par exemple, si on pose une maison à côté d'un parc ça doit donner un bonus de bonheur supplémentaire.
+Donc il faut aussi voir quelles conditions donner à quel batiment et créer les fonctions qui vont avec.
+
+Dans le nouveau code Event :
+
+Créer une classe Event.
+Créer une fonction générer_evenement qui a une chance sur 100 de se déclencher, tout en affichant un message sur l'interface (genre une canicule) et qui change les indicateurs.
+
+Voir qui fait quoi, je mets les noms en fonction de ce qui est dit sur Whatsapp
