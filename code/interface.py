@@ -40,6 +40,15 @@ class Interface:
         self.img_info = pygame.image.load("../graphisme/sprites/interface/bouton_info.png").convert_alpha()
         self.img_poubelle = pygame.image.load("../graphisme/sprites/interface/bouton_poubelle.png").convert_alpha()
 
+        # Après avoir crée le dico batiment avec les images
+        self.images_batiments = {}
+        
+        # Je donne un exemple pour la suite (c'est répétitif pour chaque doc, on attend la création du dico des batiments pour avancer)
+        # self.images_batiments["Maison"] = pygame.image.load("../graphisme/sprites/batiments/maison.png").convert_alpha()
+        # self.images_batiments["Maison"] = pygame.transform.scale(self.images_batiments["Maison"], (TAILLE_CASE, TAILLE_CASE))
+        # convert_alpha() est une fonction de pygame permettant d'optimiser l'image pour que la transparence soit gérée plus rapidement (car les dossiers en .png choisis auront une partie transparente)
+        # transform.scale() est aussi une fonction de pygame permettant de redimensionner les images par rapport à la taille des cases (car images générées par IA et ne respectant pas forcément la taille des cases)
+        
         # Redimensionnement pour rentrer dans le menu
         self.img_boutique = pygame.transform.scale(self.img_boutique, (160, 40))
         self.img_info = pygame.transform.scale(self.img_info, (160, 40))
@@ -73,7 +82,11 @@ class Interface:
         self.messages = []
 
         self.running = True
-
+    
+        # Ajout d'un système de "tick"
+        self.compteur_tick = 0
+        self.frequence_tick = 120 # En gros on se base sur les FPS, ici 60 FPS * 2 secondes = 120 frames
+        
     def ajouter_message(self, texte):
         # On garde uniquement le dernier message
         self.messages = [texte]
@@ -135,7 +148,15 @@ class Interface:
         # Mise à jour de la case sous la souris
         souris_x, souris_y = pygame.mouse.get_pos()
         self.case_souris = (souris_x // TAILLE_CASE, souris_y // TAILLE_CASE)
-
+    
+        # On gère ici le timer, sous forme de "tick"
+        self.compteur_tick += 1
+        if self.compteur_tick >= self.frequence_tick:
+            # On appelle la fonction de l'économie (qui doit être créer dans Jeu plus tard)
+            # self.jeu.actualiser_economie(self.indicateurs)
+            self.compteur_tick = 0
+            self.ajouter_message("Economie actualisée")
+            
 
     # ACTIONS SUR LA CARTE
 
@@ -215,10 +236,19 @@ class Interface:
                 )
 
                 if case["batiment"]:
-                    pygame.draw.rect(
-                        self.screen, (0, 120, 255),
-                        (px+2, py+2, TAILLE_CASE-4, TAILLE_CASE-4)
-                    )
+                    nom = case["batiment"].nom
+                    if nom in self.images_batiments:
+                        self.screen.blit(self.images_batiments[nom], (px, py))
+                    else:
+                        # En attendant que les images soient crées car pas pour l'instant, on fait en sorte de créer un "carré de secours" pour pas faire crash le jeu)
+                        pygame.draw.rect(self.screen, (0, 120, 255), (px+2, py+2, TAILLE_CASE-4, TAILLE_CASE-4))
+
+
+
+
+
+
+
 
         # Case survolée
         if self.case_souris:
@@ -264,7 +294,7 @@ class Interface:
             pygame.draw.rect(self.screen, (255, 255, 255), rect, border_radius=6)
             pygame.draw.rect(self.screen, (120, 120, 120), rect, 2, border_radius=6)
 
-        #CENTRAGE DES IMAGES
+        # CENTRAGE DES IMAGES
         img_boutique_rect = self.img_boutique.get_rect(center=self.rect_boutique.center)
         img_info_rect = self.img_info.get_rect(center=self.rect_info.center)
         img_poubelle_rect = self.img_poubelle.get_rect(center=self.rect_poubelle.center)
