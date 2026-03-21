@@ -183,6 +183,8 @@ Il faut améliorer le dessiner carte pour afficher les vraies images au lieu des
 Et il faut ajouter un compteur de temps pour que actualiser_economie ne s'exécute qu'une fois toutes les deux secondes.
 Il faut créer une fenêtre qui s'ouvre pour afficher la boutique (qui contient les bâtiments par catégories).
 
+Ce qui est fait : 
+
 Dans le code Carte : 
 
 Il faut créer une nouvelle fonction calculer_bonus_proximité, qui en gros prend en paramètre des coordonnées et qui doit par exemple, si on pose une maison à côté d'un parc ça doit donner un bonus de bonheur supplémentaire.
