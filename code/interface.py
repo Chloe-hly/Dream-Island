@@ -58,8 +58,11 @@ class Interface:
         self.rect_boutique = pygame.Rect(0, 0, 160, 40)
         self.rect_info = pygame.Rect(0, 0, 160, 40)
         self.rect_poubelle = pygame.Rect(0, 0, 160, 40)
-
-
+        self.rect_categories = []
+        self.rect_fermer = pygame.Rect(0, 0, 30, 30)
+        self.rect_retour = pygame.Rect(0, 0, 40, 30)
+        self.rect_supprimer_mode = pygame.Rect(0, 0, 160, 40)
+        
         # Initialisation des éléments du jeu
         self.carte = Carte()
         self.jeu = Jeu()
@@ -69,7 +72,8 @@ class Interface:
         self.boutique_ouverte = False
         self.categorie_boutique = "Habitation"
         self.dict_batiments = DictBatiments
-
+        self.categories = list(self.dict_batiments.keys())
+        self.rect_categories = []
         # Gestion des interactions souris / joueur
         self.case_souris = None
         self.case_selectionnee = None
@@ -86,6 +90,9 @@ class Interface:
         # Ajout d'un système de "tick"
         self.compteur_tick = 0
         self.frequence_tick = 120 # En gros on se base sur les FPS, ici 60 FPS * 2 secondes = 120 frames
+        
+        self.categories = list(self.dict_batiments.keys())
+        self.categorie_boutique = self.categories[0]
         
     def ajouter_message(self, texte):
         # On garde uniquement le dernier message
@@ -178,6 +185,7 @@ class Interface:
             if self.jeu.acheter_batiment(batiment, (x, y), self.indicateurs):
                 self.carte.placer_batiment(batiment, x, y)
                 self.ajouter_message(f"{batiment.nom} construit")
+                self.batiment_selectionne = None
             else:
                 self.ajouter_message("Pas assez d'argent")
 
@@ -187,6 +195,7 @@ class Interface:
             else:
                 self.carte.supprimer_batiment(x, y)
                 self.ajouter_message("Bâtiment supprimé")
+            self.mode = None
 
         elif self.mode == "info":
             batiment = self.carte.voir_batiment(x, y)
@@ -302,6 +311,9 @@ class Interface:
         self.screen.blit(self.img_boutique, img_boutique_rect)
         self.screen.blit(self.img_info, img_info_rect)
         self.screen.blit(self.img_poubelle, img_poubelle_rect)
+        
+        
+        
 
 
     def dessiner_hud(self):
@@ -335,18 +347,55 @@ class Interface:
                 (10, self.hauteur_fenetre - HAUTEUR_HUD - 25 + i * 20)
             )
 
-    # BOUTIQUE
+    # boutique
 
     def dessiner_boutique(self):
-        pygame.draw.rect(self.screen, (230, 230, 230), (100, 80, 800, 600))
-        pygame.draw.rect(self.screen, (0, 0, 0), (100, 80, 800, 600), 2)
+        # Fenêtre boutique
+        popup = pygame.Rect(100, 80, 800, 600)
+        pygame.draw.rect(self.screen, (230, 230, 230), popup)
+        pygame.draw.rect(self.screen, (0, 0, 0), popup, 2)
 
         titre = self.font.render("Boutique", True, (0, 0, 0))
-        self.screen.blit(titre, (460, 90))
+        self.screen.blit(titre, (popup.x + 20, popup.y + 10))
 
-        y = 150
+        # bouton croix pr fermer
+        self.rect_fermer.topleft = (popup.right - 40, popup.y + 10)
+        pygame.draw.rect(self.screen, (200, 50, 50), self.rect_fermer)
+        x_txt = self.font.render("X", True, (255, 255, 255))
+        self.screen.blit(x_txt, (self.rect_fermer.x + 8, self.rect_fermer.y + 5))
+
+        # bouton retour
+        self.rect_retour.topleft = (popup.x + 20, popup.y + 50)
+        pygame.draw.rect(self.screen, (100, 100, 100), self.rect_retour)
+        retour_txt = self.font.render("<-", True, (255, 255, 255))
+        self.screen.blit(retour_txt, (self.rect_retour.x + 10, self.rect_retour.y + 5))
+
+    # =bouton des categories
+        self.rect_categories = []
+        x_cat = popup.x + 20
+        y_cat = popup.y + 100
+
+        for categorie in self.categories:
+            rect = pygame.Rect(x_cat, y_cat, 150, 30)
+            self.rect_categories.append((rect, categorie))
+
+            couleur = (150, 200, 255) if categorie == self.categorie_boutique else (200, 200, 200)
+
+            pygame.draw.rect(self.screen, couleur, rect)
+            pygame.draw.rect(self.screen, (0, 0, 0), rect, 1)
+
+            texte = self.font.render(categorie, True, (0, 0, 0))
+            self.screen.blit(texte, (rect.x + 5, rect.y + 5))
+
+            y_cat += 40
+
+        # les categories
+        x_bat = popup.x + 200
+        y_bat = popup.y + 100
+
         for batiment in self.dict_batiments[self.categorie_boutique].values():
-            rect = pygame.Rect(150, y, 600, 35)
+            rect = pygame.Rect(x_bat, y_bat, 550, 40)
+
             pygame.draw.rect(self.screen, (100, 150, 255), rect)
             pygame.draw.rect(self.screen, (0, 0, 0), rect, 1)
 
@@ -354,20 +403,48 @@ class Interface:
                 f"{batiment.nom} | Coût : {batiment.cout}",
                 True, (0, 0, 0)
             )
-            self.screen.blit(texte, (160, y + 8))
-            y += 45
+            self.screen.blit(texte, (rect.x + 10, rect.y + 10))
 
+            y_bat += 50
+    
     def cliquer_boutique(self, x, y):
-        y_pos = 150
+        # la croix
+        if self.rect_fermer.collidepoint(x, y):
+            self.boutique_ouverte = False
+            return
+
+        # la fleche du retour
+        if self.rect_retour.collidepoint(x, y):
+            self.ajouter_message("Retour")
+            # Exemple : revenir à une catégorie par défaut
+            self.categorie_boutique = self.categories[0]
+            return
+
+        # les categories des batiments
+        for rect, categorie in self.rect_categories:
+            if rect.collidepoint(x, y):
+                self.categorie_boutique = categorie
+                self.ajouter_message(f"Catégorie : {categorie}")
+                return
+
+        # la selection des bat
+        popup = pygame.Rect(100, 80, 800, 600)
+
+        x_bat = popup.x + 200
+        y_bat = popup.y + 100
+
         for batiment in self.dict_batiments[self.categorie_boutique].values():
-            rect = pygame.Rect(150, y_pos, 600, 35)
+            rect = pygame.Rect(x_bat, y_bat, 550, 40)
+
             if rect.collidepoint(x, y):
                 self.batiment_selectionne = batiment
-                self.mode = "placer"
                 self.boutique_ouverte = False
+                self.mode = "placer"
                 self.ajouter_message(f"{batiment.nom} sélectionné")
                 return
-            y_pos += 45
+
+            y_bat += 50
+            
 
 
     # CLICS MENU
@@ -381,4 +458,12 @@ class Interface:
 
         elif self.rect_poubelle.collidepoint(souris_x, souris_y):
             self.mode = "supprimer"
-
+        elif self.rect_supprimer_mode.collidepoint(souris_x, souris_y):
+            self.mode = "supprimer"
+            self.ajouter_message("Mode : Supprimer")
+    # Clic sur les catégories des batiments
+        for rect, categorie in self.rect_categories:
+            if rect.collidepoint(souris_x, souris_y):
+                self.categorie_boutique = categorie
+                self.ajouter_message(f"Catégorie : {categorie}")
+                return
