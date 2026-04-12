@@ -59,12 +59,51 @@ class Jeu:
         indicateurs.modifier("argent", batiment.effet_argent)
         indicateurs.modifier("bonheur", batiment.effet_bonheur)
         indicateurs.modifier("population", batiment.effet_population)
+        indicateurs.modifier("pollution", batiment.effet_pollution)
+        indicateurs.modifier("biodiversite", batiment.effet_biodiversite)
 
         # Placement
         self.placer_batiment(batiment, position)
 
         print(f"{batiment.nom} construit")
         return True
+
+
+    def actualiser_economie(self, indicateurs):
+        for batiment, position in self.batiments_places:
+            indicateurs.modifier("argent", batiment.effet_argent)
+            indicateurs.modifier("pollution", batiment.effet_pollution)
+            indicateurs.modifier("biodiversite", batiment.effet_biodiversite)
+            indicateurs.modifier("bonheur", batiment.effet_bonheur)
+            
+
+    def calculer_population(self, indicateurs):
+        bonheur = indicateurs.valeurs["bonheur"]
+        if bonheur >= 70:
+            indicateurs.modifier("population",2)
+        elif bonheur >= 40:
+            indicateurs.modifier("population",1)
+        elif bonheur < 20:
+            indicateurs.modifier("population",-1)
+            
+
+    def verifier_niveau(self, indicateurs):
+        population = indicateurs.valeurs["population"]
+        argent = indicateurs.valeurs["argent"]
+        paliers = [
+            (2, 50, 2000),
+            (3, 150, 5000),
+            (4, 300, 10000),
+            (5, 500, 20000),
+            (6, 800, 25000),
+        ]
+        for niveau, pop_requise, argent_requis in paliers:
+            if population >= pop_requise or argent >= argent_requis:
+                if self.niveau < niveau:
+                    self.niveau = niveau
+                    self.ville.niveau = niveau
+                    print(f"Niveau {niveau} atteint !")
+
 
 DictBatiments = {
     "Habitation": {

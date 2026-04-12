@@ -2,7 +2,7 @@ import pygame
 from carte import *
 from batiment import *
 from indicateurs import *
-
+from events import *
 
 
 # AFFICHAGE
@@ -24,7 +24,6 @@ class Interface:
         self.largeur_fenetre = info.current_w
         self.hauteur_fenetre = info.current_h
 
-        # Création d'une grande fenêtre 
         self.screen = pygame.display.set_mode(
             (self.largeur_fenetre, self.hauteur_fenetre),
             pygame.RESIZABLE
@@ -39,79 +38,79 @@ class Interface:
         self.img_boutique = pygame.image.load("../graphisme/sprites/interface/bouton_boutique.png").convert_alpha()
         self.img_info = pygame.image.load("../graphisme/sprites/interface/bouton_info.png").convert_alpha()
         self.img_poubelle = pygame.image.load("../graphisme/sprites/interface/bouton_poubelle.png").convert_alpha()
-
-        # Après avoir crée le dico batiment avec les images
+# 
+#         # Après avoir crée le dico batiment avec les images
         self.images_batiments = {}
-        
+#         
         # Je donne un exemple pour la suite (c'est répétitif pour chaque doc, on attend la création du dico des batiments pour avancer)
-        self.images_batiments["Maison"] = pygame.image.load("../graphisme/sprites/batiments/maison.png").convert_alpha()
-        self.images_batiments["Maison"] = pygame.transform.scale(self.images_batiments["Maison"], (50*2,50*2))
-        
-        self.images_batiments["Immeuble"] = pygame.image.load("../graphisme/sprites/batiments/immeuble.png").convert_alpha()
-        self.images_batiments["Immeuble"] = pygame.transform.scale(self.images_batiments["Immeuble"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Villa"] = pygame.image.load("../graphisme/sprites/batiments/villa.png").convert_alpha()
-        self.images_batiments["Villa"] = pygame.transform.scale(self.images_batiments["Villa"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Résidence sociale"] = pygame.image.load("../graphisme/sprites/batiments/residence_sociale.png").convert_alpha()
-        self.images_batiments["Résidence sociale"] = pygame.transform.scale(self.images_batiments["Résidence sociale"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Usine"] = pygame.image.load("../graphisme/sprites/batiments/usine.png").convert_alpha()
-        self.images_batiments["Usine"] = pygame.transform.scale(self.images_batiments["Usine"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Ferme"] = pygame.image.load("../graphisme/sprites/batiments/ferme.png").convert_alpha()
-        self.images_batiments["Ferme"] = pygame.transform.scale(self.images_batiments["Ferme"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Magasin"] = pygame.image.load("../graphisme/sprites/batiments/magasin.png").convert_alpha()
-        self.images_batiments["Magasin"] = pygame.transform.scale(self.images_batiments["Magasin"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Supermarché"] = pygame.image.load("../graphisme/sprites/batiments/supermarché.png").convert_alpha()
-        self.images_batiments["Supermarché"] = pygame.transform.scale(self.images_batiments["Supermarché"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Magasin bio"] = pygame.image.load("../graphisme/sprites/batiments/magasin_bio.png").convert_alpha()
-        self.images_batiments["Magasin bio"] = pygame.transform.scale(self.images_batiments["Magasin bio"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Banque"] = pygame.image.load("../graphisme/sprites/batiments/banque.png").convert_alpha()
-        self.images_batiments["Banque"] = pygame.transform.scale(self.images_batiments["Banque"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Bureaux"] = pygame.image.load("../graphisme/sprites/batiments/bureaux.png").convert_alpha()
-        self.images_batiments["Bureaux"] = pygame.transform.scale(self.images_batiments["Bureaux"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Marché local"] = pygame.image.load("../graphisme/sprites/batiments/marché_local.png").convert_alpha()
-        self.images_batiments["Marché local"] = pygame.transform.scale(self.images_batiments["Marché local"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Port marchand"] = pygame.image.load("../graphisme/sprites/batiments/port_marchand.png").convert_alpha()
-        self.images_batiments["Port marchand"] = pygame.transform.scale(self.images_batiments["Port marchand"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Parc"] = pygame.image.load("../graphisme/sprites/batiments/parc.png").convert_alpha()
-        self.images_batiments["Parc"] = pygame.transform.scale(self.images_batiments["Parc"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Forêt"] = pygame.image.load("../graphisme/sprites/batiments/forêt.png").convert_alpha()
-        self.images_batiments["Forêt"] = pygame.transform.scale(self.images_batiments["Forêt"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Plage"] = pygame.image.load("../graphisme/sprites/batiments/plage.png").convert_alpha()
-        self.images_batiments["Plage"] = pygame.transform.scale(self.images_batiments["Plage"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Éolienne"] = pygame.image.load("../graphisme/sprites/batiments/eolienne.png").convert_alpha()
-        self.images_batiments["Éolienne"] = pygame.transform.scale(self.images_batiments["Éolienne"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Mairie"] = pygame.image.load("../graphisme/sprites/batiments/mairie.png").convert_alpha()
-        self.images_batiments["Mairie"] = pygame.transform.scale(self.images_batiments["Mairie"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Route"] = pygame.image.load("../graphisme/sprites/batiments/route.png").convert_alpha()
-        self.images_batiments["Route"] = pygame.transform.scale(self.images_batiments["Route"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Commissariat"] = pygame.image.load("../graphisme/sprites/batiments/commissariat.png").convert_alpha()
-        self.images_batiments["Commissariat"] = pygame.transform.scale(self.images_batiments["Commissariat"], (50*1.5,50*1.5))
-        
-        #self.images_batiments["Caserne de pompiers"] = pygame.image.load("../graphisme/sprites/batiments/caserne_de_pompiers.png").convert_alpha()
-        #self.images_batiments["Caserne de pompiers"] = pygame.transform.scale(self.images_batiments["Caserne de pompiers"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Hôpital"] = pygame.image.load("../graphisme/sprites/batiments/hôpital.png").convert_alpha()
-        self.images_batiments["Hôpital"] = pygame.transform.scale(self.images_batiments["Hôpital"], (50*1.5,50*1.5))
-        
-        self.images_batiments["Prison"] = pygame.image.load("../graphisme/sprites/batiments/prison.png").convert_alpha()
-        self.images_batiments["Prison"] = pygame.transform.scale(self.images_batiments["Prison"], (50*1.5,50*1.5))
+#         self.images_batiments["Maison"] = pygame.image.load("../graphisme/sprites/batiments/maison.png").convert_alpha()
+#         self.images_batiments["Maison"] = pygame.transform.scale(self.images_batiments["Maison"], (50*2,50*2))
+#         
+#         self.images_batiments["Immeuble"] = pygame.image.load("../graphisme/sprites/batiments/immeuble.png").convert_alpha()
+#         self.images_batiments["Immeuble"] = pygame.transform.scale(self.images_batiments["Immeuble"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Villa"] = pygame.image.load("../graphisme/sprites/batiments/villa.png").convert_alpha()
+#         self.images_batiments["Villa"] = pygame.transform.scale(self.images_batiments["Villa"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Résidence sociale"] = pygame.image.load("../graphisme/sprites/batiments/residence_sociale.png").convert_alpha()
+#         self.images_batiments["Résidence sociale"] = pygame.transform.scale(self.images_batiments["Résidence sociale"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Usine"] = pygame.image.load("../graphisme/sprites/batiments/usine.png").convert_alpha()
+#         self.images_batiments["Usine"] = pygame.transform.scale(self.images_batiments["Usine"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Ferme"] = pygame.image.load("../graphisme/sprites/batiments/ferme.png").convert_alpha()
+#         self.images_batiments["Ferme"] = pygame.transform.scale(self.images_batiments["Ferme"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Magasin"] = pygame.image.load("../graphisme/sprites/batiments/magasin.png").convert_alpha()
+#         self.images_batiments["Magasin"] = pygame.transform.scale(self.images_batiments["Magasin"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Supermarché"] = pygame.image.load("../graphisme/sprites/batiments/supermarché.png").convert_alpha()
+#         self.images_batiments["Supermarché"] = pygame.transform.scale(self.images_batiments["Supermarché"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Magasin bio"] = pygame.image.load("../graphisme/sprites/batiments/magasin_bio.png").convert_alpha()
+#         self.images_batiments["Magasin bio"] = pygame.transform.scale(self.images_batiments["Magasin bio"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Banque"] = pygame.image.load("../graphisme/sprites/batiments/banque.png").convert_alpha()
+#         self.images_batiments["Banque"] = pygame.transform.scale(self.images_batiments["Banque"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Bureaux"] = pygame.image.load("../graphisme/sprites/batiments/bureaux.png").convert_alpha()
+#         self.images_batiments["Bureaux"] = pygame.transform.scale(self.images_batiments["Bureaux"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Marché local"] = pygame.image.load("../graphisme/sprites/batiments/marché_local.png").convert_alpha()
+#         self.images_batiments["Marché local"] = pygame.transform.scale(self.images_batiments["Marché local"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Port marchand"] = pygame.image.load("../graphisme/sprites/batiments/port_marchand.png").convert_alpha()
+#         self.images_batiments["Port marchand"] = pygame.transform.scale(self.images_batiments["Port marchand"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Parc"] = pygame.image.load("../graphisme/sprites/batiments/parc.png").convert_alpha()
+#         self.images_batiments["Parc"] = pygame.transform.scale(self.images_batiments["Parc"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Forêt"] = pygame.image.load("../graphisme/sprites/batiments/forêt.png").convert_alpha()
+#         self.images_batiments["Forêt"] = pygame.transform.scale(self.images_batiments["Forêt"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Plage"] = pygame.image.load("../graphisme/sprites/batiments/plage.png").convert_alpha()
+#         self.images_batiments["Plage"] = pygame.transform.scale(self.images_batiments["Plage"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Éolienne"] = pygame.image.load("../graphisme/sprites/batiments/eolienne.png").convert_alpha()
+#         self.images_batiments["Éolienne"] = pygame.transform.scale(self.images_batiments["Éolienne"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Mairie"] = pygame.image.load("../graphisme/sprites/batiments/mairie.png").convert_alpha()
+#         self.images_batiments["Mairie"] = pygame.transform.scale(self.images_batiments["Mairie"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Route"] = pygame.image.load("../graphisme/sprites/batiments/route.png").convert_alpha()
+#         self.images_batiments["Route"] = pygame.transform.scale(self.images_batiments["Route"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Commissariat"] = pygame.image.load("../graphisme/sprites/batiments/commissariat.png").convert_alpha()
+#         self.images_batiments["Commissariat"] = pygame.transform.scale(self.images_batiments["Commissariat"], (50*1.5,50*1.5))
+#         
+#         #self.images_batiments["Caserne de pompiers"] = pygame.image.load("../graphisme/sprites/batiments/caserne_de_pompiers.png").convert_alpha()
+#         #self.images_batiments["Caserne de pompiers"] = pygame.transform.scale(self.images_batiments["Caserne de pompiers"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Hôpital"] = pygame.image.load("../graphisme/sprites/batiments/hôpital.png").convert_alpha()
+#         self.images_batiments["Hôpital"] = pygame.transform.scale(self.images_batiments["Hôpital"], (50*1.5,50*1.5))
+#         
+#         self.images_batiments["Prison"] = pygame.image.load("../graphisme/sprites/batiments/prison.png").convert_alpha()
+#         self.images_batiments["Prison"] = pygame.transform.scale(self.images_batiments["Prison"], (50*1.5,50*1.5))
         # convert_alpha() est une fonction de pygame permettant d'optimiser l'image pour que la transparence soit gérée plus rapidement (car les dossiers en .png choisis auront une partie transparente)
         # transform.scale() est aussi une fonction de pygame permettant de redimensionner les images par rapport à la taille des cases (car images générées par IA et ne respectant pas forcément la taille des cases)
         
@@ -152,6 +151,8 @@ class Interface:
         self.messages = []
 
         self.running = True
+        
+        self.event_manager = Event() # evenements aléatoires
     
         # Ajout d'un système de "tick"
         self.compteur_tick = 0
@@ -225,10 +226,15 @@ class Interface:
         # On gère ici le timer, sous forme de "tick"
         self.compteur_tick += 1
         if self.compteur_tick >= self.frequence_tick:
-            # On appelle la fonction de l'économie (qui doit être créer dans Jeu plus tard)
-            # self.jeu.actualiser_economie(self.indicateurs)
+            self.jeu.actualiser_economie(self.indicateurs)
+            self.jeu.calculer_population(self.indicateurs)
+            self.jeu.verifier_niveau(self.indicateurs)
+            message_event = self.event_manager.generer_evenement(self.indicateurs)
             self.compteur_tick = 0
-            self.ajouter_message("Economie actualisée")
+            if message_event:
+                self.ajouter_message(message_event)
+            else:
+                self.ajouter_message(f"Niveau {self.jeu.niveau} / Pop : {self.indicateurs.valeurs['population']}")
             
 
     # ACTIONS SUR LA CARTE
