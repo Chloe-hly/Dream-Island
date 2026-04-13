@@ -1,7 +1,7 @@
 class Indicateurs:
     def __init__(self):
         self.valeurs = {
-            "argent": 10000,
+            "argent": 5000,
             "pollution": 0,
             "biodiversite": 50,
             "bonheur": 50,
