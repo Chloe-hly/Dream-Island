@@ -277,7 +277,7 @@ class Interface:
             if message_event:
                 self.ajouter_message(message_event)
             else:
-                self.ajouter_message(f"Niveau {self.jeu.niveau} / Pop : {self.indicateurs.valeurs['population']}")
+                self.messages = []
             
 
     # ACTIONS SUR LA CARTE
@@ -308,7 +308,9 @@ class Interface:
             if self.carte.verifier_case_libre(x, y):
                 self.ajouter_message("Aucun bâtiment ici")
             else:
+                batiment = self.carte.voir_batiment(x, y)
                 self.carte.supprimer_batiment(x, y)
+                self.jeu.batiments_places = [(b, pos) for b, pos in self.jeu.batiments_places if pos != (x, y)]
                 self.ajouter_message("Bâtiment supprimé")
             self.mode = None
 
