@@ -129,7 +129,7 @@ DictBatiments = {
         "Plage": Batiment("Plage", "Environnement", 1300, +1, 0, +3, +6, +2, 4),
         "Éolienne": Batiment("Éolienne", "Environnement", 900, +2, -2, +1, +2, 0, 3),
     },
-    "sevices_publique": {
+    "Sevices publics": {
         "Mairie": Batiment("Mairie", "Services publics", 2200, +3, 0, 0, +6, +3, 4),
         "Commissariat":Batiment("Commissariat", "Services publics", 1200, 0, +1, 0, +3, +3, 3),
         "Caserne_de_pompiers": Batiment("Caserne de pompiers", "Services publics", 1400, 0, 0, 0, +4, +3, 3),
@@ -137,8 +137,8 @@ DictBatiments = {
         "Prison": Batiment("Prison", "Services publics", 1500, 0, +3, -1, -3, 0, 4),
         "Tribunal": Batiment("Tribunal", "Services publics", 1000, +1, 0, 0, +3, 0, 3),   
     },
-    "transports":{
-        "Route": Batiment("Route", "Transports", 400, +1, +3, -1, 0, 0, 1),
+    "Transports":{
+        "Bateau": Batiment("Bateau", "Transports", 400, +1, +3, -1, 0, 0, 1),
         "Tramway": Batiment("Tramway", "Transports", 1300, +3, -2, 0, +3, +5, 3),
         "Métro": Batiment("Métro", "Transports", 2200, +5, -3, 0, +4, +10, 4),
         "Piste_cyclable": Batiment("Piste cyclable", "Transports", 600, 0, -2, 0, +4, 0, 2),
@@ -146,7 +146,7 @@ DictBatiments = {
         "Aéroport": Batiment("Aéroport", "Transports", 3200, +12, +10, -5, +2, +20, 6),
         
         },
-    "culture":{
+    "Culture":{
         "Monument": Batiment("Monument", "Culture & spéciaux", 2200, +4, 0, 0, +10, 0, 5),
         "Centre_culturel": Batiment("Centre culturel", "Culture & spéciaux", 1600, +2, +1, 0, +6, +5, 4),
         "Stade": Batiment("Stade", "Culture & spéciaux", 2500, +6, +4, -2, +8, +10, 5),
