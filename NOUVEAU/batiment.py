@@ -79,23 +79,41 @@ class Jeu:
 
     def calculer_population(self, indicateurs):
         bonheur = indicateurs.valeurs["bonheur"]
+        population = indicateurs.valeurs["population"]
+        nb_batiments = len(self.batiments_places)
+        
+        if nb_batiments == 0:
+            indicateurs.modifier("bonheur", -2)
+            indicateurs.modifier("population", -1)
+            return
+        
+        
+        capacite_max = 0
+        for batiment, position in self.batiments_places:
+            capacite_max += batiment.effet_population
+        
+        
+        if population >= capacite_max:
+            return
+        
+       
         if bonheur >= 70:
-            indicateurs.modifier("population",2)
+            indicateurs.modifier("population", 2)
         elif bonheur >= 40:
-            indicateurs.modifier("population",1)
+            indicateurs.modifier("population", 1)
         elif bonheur < 20:
-            indicateurs.modifier("population",-1)
+            indicateurs.modifier("population", -1)
             
 
     def verifier_niveau(self, indicateurs):
         population = indicateurs.valeurs["population"]
         argent = indicateurs.valeurs["argent"]
         paliers = [
-            (2, 50, 2000),
-            (3, 150, 5000),
-            (4, 300, 10000),
-            (5, 500, 20000),
-            (6, 800, 25000),
+            (2, 50, 15000),
+            (3, 150, 25000),
+            (4, 300, 40000),
+            (5, 500, 60000),
+            (6, 800, 100000),
         ]
         for niveau, pop_requise, argent_requis in paliers:
             if population >= pop_requise or argent >= argent_requis:
