@@ -297,6 +297,10 @@ class Interface:
                 return
 
             batiment = self.batiment_selectionne
+            
+            if not self.carte.grille[y][x]["constructible"]:
+                self.ajouter_message("Zone interdite à la construction")
+                return
             if self.jeu.acheter_batiment(batiment, (x, y), self.indicateurs):
                 self.carte.placer_batiment(batiment, x, y)
                 self.ajouter_message(f"{batiment.nom} construit")

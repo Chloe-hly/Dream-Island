@@ -19,25 +19,47 @@ class Carte:
     def __init__(self):
        # On ne va pas placer en paramètre largeur, hauteur, taille_case
        # car on va par défaut mettre la carte en 15*15 et une case mesure 50 pixels
-       self.largeur = 15  # Le nombre de colonnes x
-       self.hauteur = 15  # Le nombre de lignes y
+        self.largeur = 15  # Le nombre de colonnes x
+        self.hauteur = 15  # Le nombre de lignes y
        
-       self.taille_case = 50  # La taille d'une case, ici en pixels
+        self.taille_case = 50  # La taille d'une case, ici en pixels
        
        # Création de la grille vide
        # Ici, chaque case est un dictionnaire qui contient les coordonnées et les bâtiments
-       self.grille = []
-       for y in range(self.hauteur):
-           ligne = []
-           for x in range(self.largeur):
-               case = {
+        self.grille = []
+        for y in range(self.hauteur):
+            ligne = []
+            for x in range(self.largeur):
+                case = {
                    "x": x,
                    "y": y,
-                   "batiment": None  # La case ne doit pas contenir de bâtiment : elle doit être vide
+                   "batiment": None, # La case ne doit pas contenir de bâtiment : elle doit être vide
+                   "constructible": True 
                }
-               ligne.append(case)
-           self.grille.append(ligne)
-            
+                ligne.append(case)
+            self.grille.append(ligne)
+           
+        for y in range(self.hauteur):
+            for x in range(self.largeur):
+
+                # Bord interdit
+                if x == 0 or y == 0 or y>=11 or x==14:
+                    self.grille[y][x]["constructible"] = False
+
+        # Zone en bas à gauche
+                if y>=9  and x <= 5:
+                    self.grille[y][x]["constructible"] = False
+        #zone en haut à droite
+                if (x>=10  and y <= 2)or (x==13 and y==3):
+                    self.grille[y][x]["constructible"] = False
+        #EN BAS 0 GAUCHE
+                if (x>=8  and y == 10)or (x>=10  and y == 9)or(x>=11  and y == 8) :
+                    self.grille[y][x]["constructible"] = False
+                
+                if (x<=5  and y <=2)or (x==1  and y >= 7) :
+                    self.grille[y][x]["constructible"] = False
+                
+
     def verifier_case_libre(self, x, y):
         # Doit return True si la case est libre
         # Si la case ne contient pas de bâtiment, elle renvoie None (donc True)
@@ -47,7 +69,12 @@ class Carte:
         return False
     
     def batiments_adjacents(self, x, y):
+        if not self.grille[y][x]["constructible"]:
+            print("Zone interdite à la construction")
+            return False
+                
         # Retourne la liste des bâtiments adjacents (haut, bas, gauche, droite)
+
         adjacents = []
         directions = [(-1,0), (1,0), (0,-1), (0,1)]
         for dx, dy in directions:
